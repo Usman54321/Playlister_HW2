@@ -58,6 +58,12 @@ export default class SongCard extends React.Component {
         return this.props.id.substring("playlist-song-".length);
     }
 
+    handleRemove = (event) => {
+        event.preventDefault();
+        let num = this.getItemNum();
+        this.props.deleteSongCallback(num);
+    }
+
     render() {
         const { song } = this.props;
         let num = this.getItemNum();
@@ -70,7 +76,7 @@ export default class SongCard extends React.Component {
         return (
             <div
                 id={'song-' + num}
-                className={itemClass}
+                className={[itemClass, "list-card", "unselected-list-card"].join(' ')}
                 onDragStart={this.handleDragStart}
                 onDragOver={this.handleDragOver}
                 onDragEnter={this.handleDragEnter}
@@ -80,9 +86,11 @@ export default class SongCard extends React.Component {
             >
                 <span>{num}.&nbsp;</span>
                  <a href={"https://www.youtube.com/watch?v=" + youtubeID}>{song.title} by {song.artist}</a>
+
                  <button 
                  id={'delete-item-' + num}
                  className={'list-card-button'}
+                 onClick={this.handleRemove}
                  >✕</button>
             </div>
         )

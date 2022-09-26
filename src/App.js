@@ -7,9 +7,11 @@ import jsTPS from './common/jsTPS.js';
 
 // OUR TRANSACTIONS
 import MoveSong_Transaction from './transactions/MoveSong_Transaction.js';
+import AddSong_Transaction from './transactions/AddSong_Transaction.js';
 
 // THESE REACT COMPONENTS ARE MODALS
 import DeleteListModal from './components/DeleteListModal.js';
+import DeleteSongModal from './components/DeleteSongModal.js';
 
 // THESE REACT COMPONENTS ARE IN OUR UI
 import Banner from './components/Banner.js';
@@ -274,6 +276,41 @@ class App extends React.Component {
         let modal = document.getElementById("delete-list-modal");
         modal.classList.remove("is-visible");
     }
+
+    showDeleteSongModal() {
+        let modal = document.getElementById("delete-song-modal");
+        modal.classList.add("is-visible");
+    }
+
+    hideDeleteSongModal() {
+        let modal = document.getElementById("delete-song-modal");
+        modal.classList.remove("is-visible");
+    }
+
+    addSong = () => {
+        let list = this.state.currentList;
+        if (list) {
+            let newSong = {title: "Untitled", artist: "Unknown", youTubeId : "dQw4w9WgXcQ"};
+            list.songs.push(newSong);
+            this.setStateWithUpdatedList(list);
+            let newLastIndex = list.songs.length - 1;
+            return newLastIndex;
+        }
+    }
+
+    addSongTransaction = () => {
+        let transaction = new AddSong_Transaction(this);
+        this.tps.addTransaction(transaction);
+    }
+
+    deleteSong = (id) => {
+        let list = this.state.currentList;
+        if (list) {
+            list.songs.pop(id);
+            this.setStateWithUpdatedList(list);
+        }
+    }
+
     render() {
         let canAddSong = this.state.currentList !== null;
         let canUndo = this.tps.hasTransactionToUndo();
@@ -300,10 +337,12 @@ class App extends React.Component {
                     undoCallback={this.undo}
                     redoCallback={this.redo}
                     closeCallback={this.closeCurrentList}
+                    addCallback={this.addSongTransaction}
                 />
                 <PlaylistCards
                     currentList={this.state.currentList}
-                    moveSongCallback={this.addMoveSongTransaction} />
+                    moveSongCallback={this.addMoveSongTransaction}
+                    deleteSongCallback={this.showDeleteSongModal} />
                 <Statusbar 
                     currentList={this.state.currentList} />
                 <DeleteListModal
@@ -311,6 +350,12 @@ class App extends React.Component {
                     hideDeleteListModalCallback={this.hideDeleteListModal}
                     deleteListCallback={this.deleteMarkedList}
                 />
+                <DeleteSongModal>
+                    closeCallback={this.hideDeleteSongModal}
+                    deleteCallback={this.deleteSong}
+                </DeleteSongModal>
+
+
             </React.Fragment>
         );
     }
