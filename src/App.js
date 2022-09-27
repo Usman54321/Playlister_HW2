@@ -8,6 +8,7 @@ import jsTPS from './common/jsTPS.js';
 // OUR TRANSACTIONS
 import MoveSong_Transaction from './transactions/MoveSong_Transaction.js';
 import AddSong_Transaction from './transactions/AddSong_Transaction.js';
+import DeleteSong_Transaction from './transactions/DeleteSong_Transaction.js';
 
 // THESE REACT COMPONENTS ARE MODALS
 import DeleteListModal from './components/DeleteListModal.js';
@@ -37,6 +38,7 @@ class App extends React.Component {
         // SETUP THE INITIAL STATE
         this.state = {
             listKeyPairMarkedForDeletion : null,
+            songMarkedForDeletion : null,
             currentList : null,
             sessionData : loadedSessionData
         }
@@ -74,6 +76,7 @@ class App extends React.Component {
         // SHOULD BE DONE VIA ITS CALLBACK
         this.setState(prevState => ({
             listKeyPairMarkedForDeletion : prevState.listKeyPairMarkedForDeletion,
+            songMarkedForDeletion : prevState.songMarkedForDeletion,
             currentList: newList,
             sessionData: {
                 nextKey: prevState.sessionData.nextKey + 1,
@@ -111,6 +114,7 @@ class App extends React.Component {
         // AND FROM OUR APP STATE
         this.setState(prevState => ({
             listKeyPairMarkedForDeletion : null,
+            songMarkedForDeletion : null,
             currentList: newCurrentList,
             sessionData: {
                 nextKey: prevState.sessionData.nextKey,
@@ -155,6 +159,7 @@ class App extends React.Component {
 
         this.setState(prevState => ({
             listKeyPairMarkedForDeletion : null,
+            songMarkedForDeletion : null,
             sessionData: {
                 nextKey: prevState.sessionData.nextKey,
                 counter: prevState.sessionData.counter,
@@ -174,6 +179,7 @@ class App extends React.Component {
         let newCurrentList = this.db.queryGetList(key);
         this.setState(prevState => ({
             listKeyPairMarkedForDeletion : prevState.listKeyPairMarkedForDeletion,
+            songMarkedForDeletion : prevState.songMarkedForDeletion,
             currentList: newCurrentList,
             sessionData: this.state.sessionData
         }), () => {
@@ -186,6 +192,7 @@ class App extends React.Component {
     closeCurrentList = () => {
         this.setState(prevState => ({
             listKeyPairMarkedForDeletion : prevState.listKeyPairMarkedForDeletion,
+            songMarkedForDeletion : prevState.songMarkedForDeletion,
             currentList: null,
             sessionData: this.state.sessionData
         }), () => {
@@ -197,6 +204,7 @@ class App extends React.Component {
     setStateWithUpdatedList(list) {
         this.setState(prevState => ({
             listKeyPairMarkedForDeletion : prevState.listKeyPairMarkedForDeletion,
+            songMarkedForDeletion : prevState.songMarkedForDeletion,
             currentList : list,
             sessionData : this.state.sessionData
         }), () => {
@@ -265,6 +273,7 @@ class App extends React.Component {
             this.showDeleteListModal();
         });
     }
+
     // THIS FUNCTION SHOWS THE MODAL FOR PROMPTING THE USER
     // TO SEE IF THEY REALLY WANT TO DELETE THE LIST
     showDeleteListModal() {
@@ -298,17 +307,54 @@ class App extends React.Component {
         }
     }
 
+    addSpecificSong = (song,id) => {
+        let list = this.state.currentList;
+        if (list) {
+            // add the song to the list at the id index
+            list.songs.splice(id, 0, song);
+            this.setStateWithUpdatedList(list);
+        }
+    }
+
     addSongTransaction = () => {
         let transaction = new AddSong_Transaction(this);
         this.tps.addTransaction(transaction);
     }
 
-    deleteSong = (id) => {
+    deleteSongTransaction = () => {
+        let id = this.state.songMarkedForDeletion;
+        let transaction = new DeleteSong_Transaction(this, id);
+        this.tps.addTransaction(transaction);
+    }
+
+    deleteSong = () => {
         let list = this.state.currentList;
-        if (list) {
-            list.songs.pop(id);
+        let id = this.state.songMarkedForDeletion;
+
+        if (list && id) {
+            // get the song at the id index and remove it
+            let song = list.songs[id];
+            list.songs.splice(id, 1);
             this.setStateWithUpdatedList(list);
+            this.hideDeleteSongModal();
+            return song;
         }
+        this.hideDeleteSongModal();
+    }
+
+    markSongForDeletion = (num) => {
+        this.setState(prevState => ({
+            currentList: prevState.currentList,
+            songMarkedForDeletion : num,
+            sessionData: prevState.sessionData
+        }), () => {
+            // PROMPT THE USER
+            // get the song's name
+            let song = this.state.currentList.songs[num];
+            let name = song.title;
+            document.getElementById("delete-song-span").innerHTML = name;
+            this.showDeleteSongModal()
+        });
     }
 
     render() {
@@ -342,7 +388,7 @@ class App extends React.Component {
                 <PlaylistCards
                     currentList={this.state.currentList}
                     moveSongCallback={this.addMoveSongTransaction}
-                    deleteSongCallback={this.showDeleteSongModal} />
+                    deleteSongCallback={this.markSongForDeletion} />
                 <Statusbar 
                     currentList={this.state.currentList} />
                 <DeleteListModal
@@ -350,12 +396,10 @@ class App extends React.Component {
                     hideDeleteListModalCallback={this.hideDeleteListModal}
                     deleteListCallback={this.deleteMarkedList}
                 />
-                <DeleteSongModal>
+                <DeleteSongModal
                     closeCallback={this.hideDeleteSongModal}
-                    deleteCallback={this.deleteSong}
-                </DeleteSongModal>
-
-
+                    deleteCallback={this.deleteSongTransaction}
+                />
             </React.Fragment>
         );
     }

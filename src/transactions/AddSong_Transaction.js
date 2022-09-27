@@ -2,10 +2,9 @@ import { jsTPS_Transaction} from "../common/jsTPS";
 
 export default class AddSong_Transaction
 extends jsTPS_Transaction {
-    constructor(initApp, initNewSong) {
+    constructor(initApp) {
         super();
         this.app = initApp;
-        this.newSong = initNewSong;
     }
 
     doTransaction() {
