@@ -407,7 +407,7 @@ class App extends React.Component {
             let song = this.state.currentList.songs[num];
             let name = song.title;
             document.getElementById("delete-song-span").innerHTML = name;
-            this.showDeleteSongModal()
+            this.showDeleteSongModal();
         });
     }
 
@@ -423,7 +423,7 @@ class App extends React.Component {
             document.getElementById("eTitle").value = song.title;
             document.getElementById("eArtist").value = song.artist;
             document.getElementById("eID").value = song.youTubeId;
-            this.showEditSongModal()
+            this.showEditSongModal();
         });
     }
 
@@ -452,11 +452,21 @@ class App extends React.Component {
         }));
     }
 
+    handleKeyPress = (e) => {
+        if (e.key === "z" && e.ctrlKey) {
+            this.undo();
+            //Both undo and redo call updateToolbarButtons() so we don't need to call it here
+        } else if (e.key === "y" && e.ctrlKey) {
+            this.redo();
+        }
+    }
+
+    // Since app is not being rerendered, I don't think we need a componentWillUnmount() method
+    componentDidMount() {
+        document.addEventListener("keydown", this.handleKeyPress, false);
+    }
+
     render() {
-        // let canAddSong = this.state.currentList !== null;
-        // let canUndo = this.tps.hasTransactionToUndo();
-        // let canRedo = this.tps.hasTransactionToRedo();
-        // let canClose = this.state.currentList !== null;
         return (
             <React.Fragment>
                 <Banner />
