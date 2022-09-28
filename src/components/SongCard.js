@@ -44,7 +44,7 @@ export default class SongCard extends React.Component {
         targetId = targetId.substring(target.id.indexOf("-") + 1);
         let sourceId = event.dataTransfer.getData("song");
         sourceId = sourceId.substring(sourceId.indexOf("-") + 1);
-        
+
         this.setState(prevState => ({
             isDragging: false,
             draggedTo: false
@@ -76,16 +76,21 @@ export default class SongCard extends React.Component {
                 onDragEnter={this.handleDragEnter}
                 onDragLeave={this.handleDragLeave}
                 onDrop={this.handleDrop}
+                onDoubleClick={() => {
+                    console.log("About to call double click with num = " + num - 1);
+                    this.props.editSongCallback(num - 1)
+                }
+                }
                 draggable="true"
             >
                 <span>{num}.&nbsp;</span>
-                 <a href={"https://www.youtube.com/watch?v=" + youtubeID}>{song.title} by {song.artist}</a>
+                <a href={"https://www.youtube.com/watch?v=" + youtubeID}>{song.title} by {song.artist}</a>
 
-                 <button 
-                 id={'delete-item-' + num}
-                 className={'list-card-button'}
-                 onClick={() => this.props.deleteSongCallback(num-1)}
-                 >✕</button>
+                <button
+                    id={'delete-item-' + num}
+                    className={'list-card-button'}
+                    onClick={() => this.props.deleteSongCallback(num - 1)}
+                >✕</button>
             </div>
         )
     }
