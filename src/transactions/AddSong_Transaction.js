@@ -8,11 +8,11 @@ export default class AddSong_Transaction extends jsTPS_Transaction {
 
     doTransaction() {
         this.id = this.app.addSong();
-        console.log("Added Song at " + this.id)
+        console.log("Added default song at " + this.id)
     }
     
     undoTransaction() {
         this.app.deleteSpecificSong(this.id);
-        console.log("Deleted Song at " + this.id)
+        console.log("Deleted default song at " + this.id)
     }
 }

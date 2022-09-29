@@ -11,11 +11,11 @@ export default class EditSong_Transaction extends jsTPS {
 
     doTransaction() {
         this.app.editSong(this.id, this.newSong);
-        console.log("Edited Song at " + this.id)
+        console.log("Edited Song at " + this.id + " to " + JSON.stringify(this.newSong));
     }
 
     undoTransaction() {
         this.app.editSong(this.id, this.oldSong);
-        console.log("Edited back the Song at " + this.id)
+        console.log("Edited back the Song at " + this.id + " to " + JSON.stringify(this.oldSong));
     }
 }

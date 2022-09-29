@@ -9,11 +9,11 @@ export default class DeleteSong_Transaction extends jsTPS {
 
     doTransaction() {
         this.song = this.app.deleteSong();
-        console.log("Deleted Song: " + this.song);
+        console.log("Deleted Song: " + JSON.stringify(this.song));
     }
     
     undoTransaction() {
         this.app.addSpecificSong(this.song, this.id);
-        console.log("Added back the Song " + this.song + " at " + this.id)
+        console.log("Added back the Song " + JSON.stringify(this.song) + " at " + this.id)
     }
 }
