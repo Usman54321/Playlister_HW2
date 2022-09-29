@@ -11,5 +11,14 @@ if ($nodeVersion -ge "17.0.0") {
     Write-Host "Node version is greater than or equal to 17.0.0"
 }
 
+# Check if node_modules folder exists
+if (Test-Path -Path "node_modules") {
+    Write-Host "node_modules folder exists"
+} else {
+    Write-Host "node_modules folder does not exist"
+    Write-Host "Installing node_modules"
+    npm install
+}
+
 # Run npm start
 npm start
