@@ -47,7 +47,8 @@ class App extends React.Component {
             sessionData: loadedSessionData,
             undoPossible: false,
             redoPossible: false,
-            addPossible: false
+            addPossible: false,
+            hasModalOpen: false
         }
     }
     sortKeyNamePairsByName = (keyNamePairs) => {
@@ -297,24 +298,36 @@ class App extends React.Component {
 
     // THIS FUNCTION SHOWS THE MODAL FOR PROMPTING THE USER
     // TO SEE IF THEY REALLY WANT TO DELETE THE LIST
-    showDeleteListModal() {
+    showDeleteListModal = () => {
         let modal = document.getElementById("delete-list-modal");
         modal.classList.add("is-visible");
+        this.setState(() => ({
+            hasModalOpen: true
+        }))
     }
     // THIS FUNCTION IS FOR HIDING THE MODAL
-    hideDeleteListModal() {
+    hideDeleteListModal = () => {
         let modal = document.getElementById("delete-list-modal");
         modal.classList.remove("is-visible");
+        this.setState(() => ({
+            hasModalOpen: false
+        }))
     }
 
-    showDeleteSongModal() {
+    showDeleteSongModal = () => {
         let modal = document.getElementById("delete-song-modal");
         modal.classList.add("is-visible");
+        this.setState(() => ({
+            hasModalOpen: true
+        }))
     }
 
-    hideDeleteSongModal() {
+    hideDeleteSongModal = () => {
         let modal = document.getElementById("delete-song-modal");
         modal.classList.remove("is-visible");
+        this.setState(() => ({
+            hasModalOpen: false
+        }))
     }
 
     addSong = () => {
@@ -427,17 +440,23 @@ class App extends React.Component {
         });
     }
 
-    showEditSongModal() {
+    showEditSongModal = () => {
         let modal = document.getElementById("edit-song-modal");
         modal.classList.add("is-visible");
+        this.setState(() => ({
+            hasModalOpen: true
+        }))
     }
 
-    hideEditSongModal() {
+    hideEditSongModal = () => {
         let modal = document.getElementById("edit-song-modal");
         modal.classList.remove("is-visible");
         document.getElementById("eTitle").value = "";
         document.getElementById("eArtist").value = "";
         document.getElementById("eID").value = "";
+        this.setState(() => ({
+            hasModalOpen: false
+        }))
     }
 
     updateToolbarButtons = () => {
@@ -454,10 +473,12 @@ class App extends React.Component {
 
     handleKeyPress = (e) => {
         if (e.key === "z" && e.ctrlKey) {
-            this.undo();
+            if (!this.state.hasModalOpen)
+                this.undo();
             //Both undo and redo call updateToolbarButtons() so we don't need to call it here
         } else if (e.key === "y" && e.ctrlKey) {
-            this.redo();
+            if (!this.state.hasModalOpen)
+                this.redo();
         }
     }
 

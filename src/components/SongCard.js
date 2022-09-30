@@ -77,7 +77,7 @@ export default class SongCard extends React.Component {
                 onDragLeave={this.handleDragLeave}
                 onDrop={this.handleDrop}
                 onDoubleClick={() => {
-                    console.log("About to call double click with num = " + num - 1);
+                    // console.log("About to call double click with num = " + num - 1);
                     this.props.editSongCallback(num - 1)
                 }
                 }
