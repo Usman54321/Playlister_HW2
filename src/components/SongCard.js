@@ -10,6 +10,9 @@ export default class SongCard extends React.Component {
         }
     }
     handleDragStart = (event) => {
+        console.log("Beginning drop from " + event.target.id);
+        if (event.target.id === "")
+            return;
         event.dataTransfer.setData("song", event.target.id);
         this.setState(prevState => ({
             isDragging: true,
@@ -41,6 +44,8 @@ export default class SongCard extends React.Component {
         event.preventDefault();
         let target = event.target;
         let targetId = target.id;
+        if (targetId === "")
+            return
         targetId = targetId.substring(target.id.indexOf("-") + 1);
         let sourceId = event.dataTransfer.getData("song");
         sourceId = sourceId.substring(sourceId.indexOf("-") + 1);

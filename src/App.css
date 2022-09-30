@@ -233,7 +233,8 @@ input {
   grid-template-rows: 33% 33% 33%;
   gap: 10px 20px;
   /* font-size: 25pt; */
-  font-size: 38px;
+  /* font-size: 38px; */
+  font-size: 33px;
 }
 
 .modal-center > input {
@@ -256,6 +257,7 @@ span {
 .modal-center-content {
   grid-column: 1 / 3;
   grid-row: 1 / 4;
+  font-size: 38px;
 }
 
 .modal-prompt {
