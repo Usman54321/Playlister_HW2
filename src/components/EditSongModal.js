@@ -13,17 +13,13 @@ export default class EditSongModal extends Component {
                         Edit Song
                     </div>
                     <div className="modal-center">
-                        {/* <div className="modal-center-content"> */}
-                            <span>Title:</span>
-                            <input type="text" id="eTitle" name="title" />
-                            {/* <br></br> */}
-                            <span>Artist:</span>
-                            <input type="text" id="eArtist" name="artist" />
-                            {/* <br></br> */}
-                            <span>Youtube ID:</span>
-                            <input type="text" id="eID" name="youtubeID" />
-                            <br></br>
-                        {/* </div> */}
+                        <span>Title:</span>
+                        <input type="text" id="eTitle" name="title" />
+                        <span>Artist:</span>
+                        <input type="text" id="eArtist" name="artist" />
+                        <span>Youtube ID:</span>
+                        <input type="text" id="eID" name="youtubeID" />
+                        <br></br>
                     </div>
                     <div className="modal-south">
                         <input type="button"
