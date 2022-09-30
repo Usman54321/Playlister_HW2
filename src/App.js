@@ -481,9 +481,12 @@ class App extends React.Component {
         }
     }
 
-    // Since app is not being unmounted, I don't think we need a componentWillUnmount() method
     componentDidMount() {
         document.addEventListener("keydown", this.handleKeyPress, false);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("keydown", this.handleKeyPress, false);
     }
 
     render() {
