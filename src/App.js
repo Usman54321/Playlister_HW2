@@ -99,6 +99,7 @@ class App extends React.Component {
 
             // SO IS STORING OUR SESSION DATA
             this.db.mutationUpdateSessionData(this.state.sessionData);
+            this.updateToolbarButtons();
         });
     }
     // THIS FUNCTION BEGINS THE PROCESS OF DELETING A LIST.
@@ -138,6 +139,7 @@ class App extends React.Component {
 
             // SO IS STORING OUR SESSION DATA
             this.db.mutationUpdateSessionData(this.state.sessionData);
+            this.updateToolbarButtons();
         });
     }
     deleteMarkedList = () => {
