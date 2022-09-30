@@ -494,6 +494,7 @@ class App extends React.Component {
                 <SidebarHeading
                     createNewListCallback={this.createNewList}
                     canCreateNewList={!this.state.addPossible}
+                    isModalOpen={this.state.hasModalOpen}
                 />
                 <SidebarList
                     currentList={this.state.currentList}
@@ -507,6 +508,7 @@ class App extends React.Component {
                     canUndo={this.state.undoPossible}
                     canRedo={this.state.redoPossible}
                     canClose={this.state.addPossible}
+                    isModalOpen={this.state.hasModalOpen}
                     undoCallback={this.undo}
                     redoCallback={this.redo}
                     closeCallback={this.closeCurrentList}
