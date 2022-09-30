@@ -19,7 +19,6 @@ export default class EditSongModal extends Component {
                         <input type="text" id="eArtist" name="artist" />
                         <span>Youtube ID:</span>
                         <input type="text" id="eID" name="youtubeID" />
-                        <br></br>
                     </div>
                     <div className="modal-south">
                         <input type="button"
