@@ -357,8 +357,8 @@ class App extends React.Component {
     }
 
     deleteSongTransaction = () => {
-        let id = this.state.songMarkedForDeletion;
-        let transaction = new DeleteSong_Transaction(this, id);
+        let num = this.state.songMarkedForDeletion;
+        let transaction = new DeleteSong_Transaction(this, num);
         this.tps.addTransaction(transaction);
         this.updateToolbarButtons();
     }
@@ -382,9 +382,8 @@ class App extends React.Component {
         }
     }
 
-    deleteSong = () => {
+    deleteSong = (id) => {
         let list = this.state.currentList;
-        let id = this.state.songMarkedForDeletion;
 
         if (list) {
             // get the song at the id index and remove it

@@ -8,8 +8,8 @@ export default class DeleteSong_Transaction extends jsTPS {
     }
 
     doTransaction() {
-        this.song = this.app.deleteSong();
-        console.log("Deleted Song: " + JSON.stringify(this.song));
+        this.song = this.app.deleteSong(this.id);
+        console.log("Deleted Song: " + JSON.stringify(this.song) + " at " + this.id);
     }
     
     undoTransaction() {
