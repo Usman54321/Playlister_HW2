@@ -53,6 +53,7 @@ body {
 .toolbar-button-disabled {
   opacity: 0.25;
   cursor: not-allowed;
+  background-color: lightgray; 
 }
 
 .toolbar-button-disabled:hover {
