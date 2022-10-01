@@ -478,11 +478,11 @@ class App extends React.Component {
     }
 
     handleKeyPress = (e) => {
-        if (e.key === "z" && e.ctrlKey) {
+        if ((e.key === "z"  || e.key === 'Z') && e.ctrlKey) {
             if (!this.state.hasModalOpen)
                 this.undo();
             //Both undo and redo call updateToolbarButtons() so we don't need to call it here
-        } else if (e.key === "y" && e.ctrlKey) {
+        } else if ((e.key === "y" || e.key === 'Y') && e.ctrlKey) {
             if (!this.state.hasModalOpen)
                 this.redo();
         }
