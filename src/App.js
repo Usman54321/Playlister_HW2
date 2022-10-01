@@ -38,6 +38,8 @@ class App extends React.Component {
         // GET THE SESSION DATA FROM OUR DATA MANAGER
         let loadedSessionData = this.db.queryGetSessionData();
 
+        // this.sortKeyNamePairsByName(loadedSessionData.keyNamePairs)
+
         // SETUP THE INITIAL STATE
         this.state = {
             listKeyPairMarkedForDeletion: null,
@@ -111,6 +113,9 @@ class App extends React.Component {
                 // THIS JUST MEANS IT'S NOT THE CURRENT LIST BEING
                 // DELETED SO WE'LL KEEP THE CURRENT LIST AS IT IS
                 newCurrentList = this.state.currentList;
+            }
+            else {
+                this.tps.clearAllTransactions();
             }
         }
 
