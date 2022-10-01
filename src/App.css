@@ -40,7 +40,8 @@ body {
   -statusbar
  */
 
-.toolbar-button, .toolbar-button-disabled {
+.toolbar-button,
+.toolbar-button-disabled {
   font-size: 36pt;
   border-width: 1px;
   border-color: black;
@@ -52,6 +53,10 @@ body {
 .toolbar-button-disabled {
   opacity: 0.25;
   cursor: not-allowed;
+}
+
+.toolbar-button-disabled:hover {
+  color: var(--swatch-neutral);
 }
 
 #banner {
@@ -237,7 +242,7 @@ input {
   font-size: 33px;
 }
 
-.modal-center > input {
+.modal-center>input {
   height: 60%;
 }
 
